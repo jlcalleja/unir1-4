@@ -57,23 +57,23 @@ pipeline {
                     sh 'git checkout master'
                     sh 'git pull origin master'
 
-            // Realizar el merge desde 'develop' a 'master'
-            def mergeResult = sh(script: 'git merge develop', returnStatus: true)
-            
-            if (mergeResult != 0) {
-                echo "Merge conflict detected, proceeding to resolve..."
-                
-                // Resolver el conflicto: Mantener la versión de 'master' para Jenkinsfile
-                sh 'git checkout --ours Jenkinsfile'   // Usa el archivo de master, no el de develop
-                sh 'git add Jenkinsfile'               // Añadir el Jenkinsfile resuelto
-                sh 'git commit -m "Resolved merge conflict: keeping Jenkinsfile from master"'
-            }
-
-            // Usar las credenciales de tipo 'Username with password' directamente
-            withCredentials([usernamePassword(credentialsId: '4d4a1cc8-ee35-4ff6-8837-90699db6e6f7', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
-                // Hacer el git push con el nombre de usuario y el token
-                sh "git push https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/jlcalleja/unir1-4.git master"
-            }
+                    // Realizar el merge desde 'develop' a 'master'
+                    def mergeResult = sh(script: 'git merge develop', returnStatus: true)
+                    
+                    if (mergeResult != 0) {
+                        echo "Merge conflict detected, proceeding to resolve..."
+                        
+                        // Resolver el conflicto: Mantener la versión de 'master' para Jenkinsfile
+                        sh 'git checkout --ours Jenkinsfile'   // Usa el archivo de master, no el de develop
+                        sh 'git add Jenkinsfile'               // Añadir el Jenkinsfile resuelto
+                        sh 'git commit -m "Resolved merge conflict: keeping Jenkinsfile from master"'
+                    }
+        
+                    // Usar las credenciales de tipo 'Username with password' directamente
+                    withCredentials([usernamePassword(credentialsId: '4d4a1cc8-ee35-4ff6-8837-90699db6e6f7', usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
+                        // Hacer el git push con el nombre de usuario y el token
+                        sh "git push https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/jlcalleja/unir1-4.git master"
+                    }
                 }
             }
         }
