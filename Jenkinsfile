@@ -63,10 +63,13 @@ pipeline {
                     if (mergeResult != 0) {
                         echo "Merge conflict detected, proceeding to resolve..."
                         
-                        // Resolver el conflicto: Mantener la versión de 'master' para Jenkinsfile
-                        sh 'git checkout --ours Jenkinsfile'   // Usa el archivo de master, no el de develop
-                        sh 'git add Jenkinsfile'               // Añadir el Jenkinsfile resuelto
-                        sh 'git commit -m "Resolved merge conflict: keeping Jenkinsfile from master"'
+                        // Resolver el conflicto: Mantener la versión de 'master' para Jenkinsfile y Jenkinsfile_agentes
+                        sh 'git checkout --ours Jenkinsfile'
+                        sh 'git checkout --ours Jenkinsfile_agentes'
+                        sh 'git add Jenkinsfile Jenkinsfile_agentes'
+                        sh 'git commit -m "Resolved merge conflict: keeping Jenkinsfile and Jenkinsfile_agentes from master"'
+
+
                     }
         
                     // Usar las credenciales de tipo 'Username with password' directamente
