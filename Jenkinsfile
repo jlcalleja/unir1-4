@@ -23,7 +23,7 @@ pipeline {
                         --no-fail-on-empty-changeset \
                         --stack-name todo-list-aws-staging \
                         --resolve-s3 \
-                        --parameter-overrides Environment=staging
+                        --parameter-overrides Stage=staging
                 '''
             }
         }
