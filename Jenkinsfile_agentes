@@ -1,1 +1,64 @@
+pipeline {
+    agent any
 
+    stages {
+        stage('Get Code') {
+            steps {
+                git 'https://github.com/jlcalleja/unir1-4'
+                
+                stash includes: '**', name: 'codigo' 
+            }
+        }
+
+        stage('SAM Deploy') {
+            steps {
+                sh 'sam build'
+                sh '''
+                    sam deploy --no-confirm-changeset \
+                        --no-fail-on-empty-changeset \
+                        --stack-name todo-list-aws-production \
+                        --capabilities CAPABILITY_IAM \
+                        --parameter-overrides Stage=production \
+                        --resolve-s3
+                '''
+            }
+        }
+
+        stage('Get API URL') {
+            steps {
+                script {
+                    // Obtener el valor de BASE_URL desde CloudFormation
+                    def baseUrlCommand = "aws cloudformation describe-stacks --stack-name todo-list-aws-staging --query 'Stacks[0].Outputs[?OutputKey==`BaseUrlApi`].OutputValue' --region us-east-1 --output text"
+                    env.BASE_URL = sh(script: baseUrlCommand, returnStdout: true).trim()
+                    echo "BASE_URL: ${env.BASE_URL}"
+                    
+                    stash includes: '**', name: 'url' 
+                }
+            }
+        }
+
+        stage('Test Rest') {
+            agent { label 'user2' }
+            steps {
+                script {
+                    unstash 'codigo'
+                    unstash 'url'
+
+                    if (!env.BASE_URL?.trim()) {
+                        error "BASE_URL is empty or undefined. Cannot proceed with API tests."
+                    }
+                    sh "BASE_URL=${env.BASE_URL} pytest test/integration/todoApiTest.py"
+                }
+            }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+            node('user2') {
+                cleanWs() 
+            }
+        }
+    }
+}
