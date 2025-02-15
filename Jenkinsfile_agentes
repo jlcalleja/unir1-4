@@ -16,8 +16,7 @@ pipeline {
                 sh '''
                     sam deploy --no-confirm-changeset \
                         --no-fail-on-empty-changeset \
-                        --stack-name todo-list-aws-production \
-                        --capabilities CAPABILITY_IAM \
+                        --config-env staging \
                         --parameter-overrides Stage=production \
                         --resolve-s3
                 '''
