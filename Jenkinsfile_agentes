@@ -8,6 +8,7 @@ pipeline {
         stage('Get Code') {
             steps {
                 git url: 'https://github.com/jlcalleja/unir1-4', branch: 'develop', credentialsId: '4d4a1cc8-ee35-4ff6-8837-90699db6e6f7'
+                sh 'curl -o samconfig.toml https://raw.githubusercontent.com/jlcalleja/todo-list-aws-config/staging/samconfig.toml'
                 
                 stash includes: '**', name: 'codigo' 
             }
