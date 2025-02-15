@@ -29,7 +29,7 @@ pipeline {
                 sh '''
                     sam deploy --no-confirm-changeset \
                         --no-fail-on-empty-changeset \
-                        --stack-name todo-list-aws-staging \
+                        --config-env staging \
                         --resolve-s3 \
                         --parameter-overrides Stage=staging
                 '''
