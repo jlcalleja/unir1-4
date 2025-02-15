@@ -5,6 +5,11 @@ pipeline {
         stage('Get Code') {
             steps {
                 git 'https://github.com/jlcalleja/unir1-4'
+                
+                sh 'curl -o samconfig.toml https://raw.githubusercontent.com/jlcalleja/todo-list-aws-config/production/samconfig.toml'
+                
+                sh 'ls -la' 
+                sh 'cat samconfig.toml' 
             }
         }
 
