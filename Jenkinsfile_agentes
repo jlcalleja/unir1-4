@@ -16,7 +16,7 @@ pipeline {
                 sh '''
                     sam deploy --no-confirm-changeset \
                         --no-fail-on-empty-changeset \
-                        --config-env staging \
+                        --config-env production \
                         --parameter-overrides Stage=production \
                         --resolve-s3
                 '''
