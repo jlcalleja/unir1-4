@@ -5,9 +5,15 @@ pipeline {
         stage('Get Code') {
             steps {
                 git url: 'https://github.com/jlcalleja/unir1-4', branch: 'develop', credentialsId: '4d4a1cc8-ee35-4ff6-8837-90699db6e6f7'
+            
+                
+                sh 'curl -o samconfig.toml https://raw.githubusercontent.com/jlcalleja/todo-list-aws-config/staging/samconfig.toml'
+                
+                sh 'ls -la' 
+                sh 'cat samconfig.toml' 
             }
         }
-
+        
         stage('Static Test') {
             steps {
                 sh 'flake8 src/ > flake8_report.txt || true'
@@ -21,7 +27,7 @@ pipeline {
                 sh '''
                     sam deploy --no-confirm-changeset \
                         --no-fail-on-empty-changeset \
-                        --stack-name todo-list-aws-staging \
+                        --config-env staging \
                         --resolve-s3 \
                         --parameter-overrides Stage=staging
                 '''
