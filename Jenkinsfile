@@ -60,6 +60,10 @@ pipeline {
                     
                     // Asegurarse de estar en la rama correcta
                     sh 'git checkout develop'
+                    
+                    // Asegura que Jenkins tenga todas las ramas
+                    sh 'git fetch --all'  
+                    
                     sh 'git checkout master'
                     sh 'git pull origin master'
 
