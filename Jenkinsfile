@@ -62,7 +62,7 @@ pipeline {
                     sh 'git checkout develop'
                     
                     // Asegura que Jenkins tenga todas las ramas
-                    sh 'git fetch origin +refs/heads/*:refs/remotes/origin/*' 
+                    sh 'git ls-remote --heads origin master' 
                     
                     sh 'git checkout master'
                     sh 'git pull origin master'
