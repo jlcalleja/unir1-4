@@ -59,11 +59,9 @@ pipeline {
                     sh "git config --global user.name 'JLC'"
                     
                     // Asegurarse de estar en la rama correcta
-                    sh 'git checkout develop'
-                    
-                    // Asegura que Jenkins tenga todas las ramas
-                    sh 'git ls-remote --heads origin master' 
-                    
+                    sh 'git checkout develop' 
+
+                    sh 'git fetch origin master:master'
                     sh 'git checkout master'
                     sh 'git pull origin master'
 
