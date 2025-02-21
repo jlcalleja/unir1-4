@@ -21,6 +21,8 @@ pipeline {
                         --parameter-overrides Stage=production \
                         --resolve-s3
                 '''
+                bat "echo whoami
+                    echo hostname"
             }
         }
 
@@ -33,6 +35,9 @@ pipeline {
                     echo "BASE_URL: ${env.BASE_URL}"
                     
                     stash includes: '**', name: 'url' 
+
+                    bat "echo whoami
+                        echo hostname"
                 }
             }
         }
@@ -48,6 +53,9 @@ pipeline {
                         error "BASE_URL is empty or undefined. Cannot proceed with API tests."
                     }
                     sh "BASE_URL=${env.BASE_URL} pytest test/integration/todoApiTest.py"
+
+                    bat "echo whoami
+                        echo hostname"
                 }
             }
         }
