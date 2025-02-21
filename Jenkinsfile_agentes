@@ -21,8 +21,8 @@ pipeline {
                         --parameter-overrides Stage=production \
                         --resolve-s3
                 '''
-                sh 'echo whoami'
-                sh 'echo hostname'
+                sh 'whoami'
+                sh 'hostname'
             }
         }
 
@@ -36,8 +36,8 @@ pipeline {
                     
                     stash includes: '**', name: 'url' 
 
-                    sh 'echo whoami'
-                    sh 'echo hostname'
+                    sh 'whoami'
+                    sh 'hostname'
                 }
             }
         }
@@ -54,8 +54,8 @@ pipeline {
                     }
                     sh "BASE_URL=${env.BASE_URL} pytest test/integration/todoApiTest.py"
 
-                    sh 'echo whoami'
-                    sh 'echo hostname'
+                    sh 'whoami'
+                    sh 'hostname'
                 }
             }
         }
