@@ -8,6 +8,9 @@ pipeline {
                 sh 'curl -o samconfig.toml https://raw.githubusercontent.com/jlcalleja/todo-list-aws-config/production/samconfig.toml'
                 
                 stash includes: '**', name: 'codigo' 
+
+                sh 'whoami'
+                sh 'hostname'
             }
         }
 
