@@ -11,6 +11,9 @@ pipeline {
                 sh 'curl -o samconfig.toml https://raw.githubusercontent.com/jlcalleja/todo-list-aws-config/staging/samconfig.toml'
                 
                 stash includes: '**', name: 'codigo' 
+
+                sh 'whoami'
+                sh 'hostname'
             }
         }
         
@@ -21,6 +24,9 @@ pipeline {
                 
                 sh 'flake8 src/ > flake8_report.txt || true'
                 sh 'bandit -r src/ -f html -o bandit_report.html || true'
+
+                sh 'whoami'
+                sh 'hostname'
             }
         }
 
@@ -34,6 +40,9 @@ pipeline {
                         --resolve-s3 \
                         --parameter-overrides Stage=staging
                 '''
+
+                sh 'whoami'
+                sh 'hostname'
             }
         }
 
@@ -46,6 +55,9 @@ pipeline {
                     echo "BASE_URL: ${env.BASE_URL}"
                     
                     stash includes: '**', name: 'url' 
+
+                    sh 'whoami'
+                    sh 'hostname'
                 }
             }
         }
@@ -61,6 +73,9 @@ pipeline {
                         error "BASE_URL is empty or undefined. Cannot proceed with API tests."
                     }
                     sh "BASE_URL=${env.BASE_URL} pytest test/integration/todoApiTest.py"
+
+                    sh 'whoami'
+                    sh 'hostname'
                 }
             }
         }
@@ -94,6 +109,9 @@ pipeline {
                         // Hacer el git push con el nombre de usuario y el token
                         sh "git push https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/jlcalleja/unir1-4.git master"
                     }
+
+                    sh 'whoami'
+                    sh 'hostname'
                 }
             }
         }
