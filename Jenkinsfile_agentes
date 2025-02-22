@@ -35,7 +35,6 @@ pipeline {
                 script {
                     unstash 'codigo'
 
-                    script {
                     // Obtener el valor de BASE_URL desde CloudFormation
                     def baseUrlCommand = "aws cloudformation describe-stacks --stack-name todo-list-aws-staging --query 'Stacks[0].Outputs[?OutputKey==`BaseUrlApi`].OutputValue' --region us-east-1 --output text"
 
@@ -63,5 +62,4 @@ pipeline {
             }
         }
     }
-}
 }
